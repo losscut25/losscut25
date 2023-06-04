@@ -47,9 +47,7 @@
 	Properties p = new Properties();
 	p.put("mail.smtp.user", from); // google SMTP 주소
 	p.put("mail.smtp.host", "smtp.naver.com"); // google SMTP 주소
-	p.put("mail.smtp.user", "leehuimin12@naver.com"); // google SMTP 주소
-	p.put("mail.smtp.password", "3S9CY1F67G3J"); // google SMTP 주소
-	p.put("mail.smtp.host", "smtp.naver.com"); // google SMTP 주소
+	p.put("mail.smtp.password", "3S9CY1F67G3J"); // password;
 	p.put("mail.smtp.port", "465");
 	p.put("mail.smtp.starttls.enable", "true");
 	p.put("mail.smtp.auth", "true");
@@ -72,7 +70,7 @@
 		Address toAddr = new InternetAddress(to);
 		msg.addRecipient(Message.RecipientType.TO, toAddr);
 		msg.setContent(content, "text/html;charset=UTF-8");
-		//Transport.send(msg); // 이부분만 어떻게 하면 메일이 보내짐.... 
+//		Transport.send(msg); // 이부분만 어떻게 하면 메일이 보내짐.... 
 	} catch (Exception e) {
 		e.printStackTrace();
 		PrintWriter script = response.getWriter();
