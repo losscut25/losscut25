@@ -12,7 +12,6 @@
 <link rel="stylesheet" href = "./css/bootstrap.min.css">
 <!-- 커스텀 CSS 추가하기 -->
 <link rel="stylesheet" href = "./css/custom.css">
-
 </head>
 <body>
 <%
@@ -37,7 +36,7 @@
 		script.println("</script>");
 		script.close();
 		return;
-	
+	}
 %>
 	<nav class = "navbar navbar-expand-lg navbar-light bg-light">
 	<a class="navbar-brand" href = "index.jsp">강의평가 웹 사이트</a>
@@ -62,7 +61,10 @@
 <%
 	} else {
 %>
-						<a class="dropdown-item" href="userLogout.jsp">로그아웃</a>
+						<a class="dropdown-item" href="userLogout.jsp">로그아웃</a>	
+<%
+	}
+%>
 					</div>
 				</li>
 			</ul>
@@ -119,7 +121,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="modal">평가 등록</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-labe="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -128,11 +130,11 @@
 						<div class="form-row">
 							<div class="form-group col-sm-6">
 								<label>강의명</label>
-								<input type="text" name="lectureName" class="form-control" maxlength="20">
+								<input type="text" name="lectureName" class="form-control" maxlength="20"/>
 							</div>
 							<div class="form-group col-sm-6">
 								<label>교수명</label>
-								<input type="text" name="professorName" class="form-control" maxlength="20">							
+								<input type="text" name="professorName" class="form-control" maxlength="20"/>
 							</div>
 						</div>
 						<div class="form-row">
@@ -174,11 +176,11 @@
 						</div>
 						<div class="form-group">
 							<label>제목</label>
-							<input type="text" name="evaluationTime" class="form-control" maxlength="30">
+							<input type="text" name="evaluationTitle" class="form-control" maxlength="30">
 						</div>
 						<div class="form-group">
 							<label>내용</label>
-							<textarea name="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>						
+							<textarea name="evaluationContent" class="form-control" maxlength="2048" style="height:180px;"></textarea>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-sm-3">

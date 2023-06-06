@@ -1,29 +1,34 @@
-package user;
+package evaluation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import user.UserDTO;
 import util.DatabaseUtil;
 
-public class UserDAO {
-	public int login (String userID, String userPassword) {
-		String sql = "SELECT userPassword FROM user Where userID = ?";
+public class EvaluationDAO {
+	public int write (EvaluationDTO evaluationDTO) {
+		String sql = "INSERT INTO EVALUATION VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userID);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				if(rs.getString(1).equals(userPassword))
-					return 1; //로그인 성공
-				else
-					return 0; //비밀번호 불일치
-			}
-			return -1; //아이디 존재 x
+			pstmt.setString(1, evaluationDTO.getUserID());
+			pstmt.setString(2, evaluationDTO.getLectureName());
+			pstmt.setString(3, evaluationDTO.getProfessorName());
+			pstmt.setInt(4, evaluationDTO.getLectureYear());
+			pstmt.setString(5, evaluationDTO.getSemesterDivide());
+			pstmt.setString(6, evaluationDTO.getLectureDivide());
+			pstmt.setString(7, evaluationDTO.getEvaluationTitle());
+			pstmt.setString(8, evaluationDTO.getEvaluationContent());
+			pstmt.setString(9, evaluationDTO.getTotalScore());
+			pstmt.setString(10, evaluationDTO.getCreditScore());
+			pstmt.setString(11, evaluationDTO.getComfortableScore());
+			pstmt.setString(12, evaluationDTO.getLectureScore());
+			return pstmt.executeUpdate();
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -34,7 +39,7 @@ public class UserDAO {
 			try { if(rs != null) rs.close(); }
 			catch (Exception e) { e.printStackTrace(); }
 		}
-		return -2; //데이터 베이스 오류
+		return -1; //데이터 베이스 오류
 	}
 	
 	public int join (UserDTO user) {
