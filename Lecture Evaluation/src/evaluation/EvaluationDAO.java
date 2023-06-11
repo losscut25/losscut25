@@ -54,11 +54,11 @@ public class EvaluationDAO {
 		ResultSet rs = null;
 		try {
 			if(searchType.equals("최신순")) {
-				SQL = "SELECT * FROM EVALUATION WHERE lectureDivide LIKE ? AND CONCAT(lectureName, professorName, evaluationTitle, evaluationContent) LIKE "
+				SQL = "SELECT * FROM evaluation WHERE lectureDivide LIKE ? AND CONCAT(lectureName, professorName, evaluationTitle, evaluationContent) LIKE "
 						+ "? ORDER BY evaluationID DESC LIMIT " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
-			} else if(searchType.equals("추천순")) {
-				SQL = "SELECT * FROM EVALUATION WHERE lectureDivide LIKE ? AND CONCAT(lectureName, professorName, evaluationTitle, evaluationContent) LIKE "
-						+ "? ORDER BY likeCount evaluationID DESC LIMIT " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
+			} else if (searchType.equals("추천순")) {
+				SQL = "SELECT * FROM evaluation WHERE lectureDivide LIKE ? AND CONCAT(lectureName, professorName, evaluationTitle, evaluationContent) LIKE "
+						+ "? ORDER BY likeCount DESC LIMIT " + pageNumber * 5 + ", " + pageNumber * 5 + 6;
 			}
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
@@ -97,6 +97,75 @@ public class EvaluationDAO {
 		}
 		return evaluationList; //데이터 베이스 오류
 	}
+	
+	public int like(String evaluationID) {
+		String sql = "UPDATE EVALUATION SET likeCount = likeCount + 1 WHERE evaluationID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(evaluationID));
+			return pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { if(conn != null) conn.close(); }
+			catch (Exception e) { e.printStackTrace(); }
+			try { if(pstmt != null) pstmt.close(); }
+			catch (Exception e) { e.printStackTrace(); }
+			try { if(rs != null) rs.close(); }
+			catch (Exception e) { e.printStackTrace(); }
+		}
+		return -1;
+	}
+		public int delete(String evaluationID) {
+			String sql = "DELETE FROM EVALUATION WHERE evaluationID = ?";
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try {
+				conn = DatabaseUtil.getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(evaluationID));
+				return pstmt.executeUpdate();
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				try { if(conn != null) conn.close(); }
+				catch (Exception e) { e.printStackTrace(); }
+				try { if(pstmt != null) pstmt.close(); }
+				catch (Exception e) { e.printStackTrace(); }
+				try { if(rs != null) rs.close(); }
+				catch (Exception e) { e.printStackTrace(); }
+			}
+			return -1;
+	}
+		public String getUserID(String evaluationID) {
+			String sql = "SELECT userID FROM EVALUATION WHERE evaluationID = ?";
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try {
+				conn = DatabaseUtil.getConnection();
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(evaluationID));
+				rs = pstmt.executeQuery();
+				if(rs.next())
+					return rs.getString(1);
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				try { if(conn != null) conn.close(); }
+				catch (Exception e) { e.printStackTrace(); }
+				try { if(pstmt != null) pstmt.close(); }
+				catch (Exception e) { e.printStackTrace(); }
+				try { if(rs != null) rs.close(); }
+				catch (Exception e) { e.printStackTrace(); }
+			}
+			return null; // 존재하지 않으면 오류
+		}
 	
 	public int join (UserDTO user) {
 		String sql = "INSERT INTO USER VALUES (?, ?, ?, ?, false)";
